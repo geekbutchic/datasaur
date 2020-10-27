@@ -33,10 +33,10 @@ const makeExtinct = function (dino) {
 
 const isCarnivore = function (dino) {
   return (dino.carnivore === true)
-}
+} 
 
 const isHerbivore = function (dino) {
-  return (dino.herbivore === true)
+  return (dino.carnivore === false)
 }
 
 const isExtinct = function (dino) {
@@ -45,7 +45,7 @@ const isExtinct = function (dino) {
 
 const isNotExtinct = function (dino) {
   return (dino.extinct === false)
-}
+} 
 
 const isTriassic = function (dino) {
   return (dino.period === 'Triassic')
@@ -160,15 +160,6 @@ const notTriassic = function (dinosaurs) {
   return newDino;
 }
 
-
-
-
-
-
-
-
-
-
 /*********************************
  * TEST SETUP CODE - DON'T TOUCH!*
  ********************************/
@@ -256,6 +247,7 @@ module.exports = {
   truncateSpecies,
   makeExtinct,
   isCarnivore,
+  isHerbivore,
   isExtinct,
   isNotExtinct,
   isTriassic,

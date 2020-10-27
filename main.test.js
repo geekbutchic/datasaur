@@ -1,11 +1,12 @@
-const dinos = require('./dinos.js');
 const {
   makeDino,
   makeSingular,
   truncateSpecies,
   makeExtinct,
   isCarnivore,
+  isHerbivore,
   isExtinct,
+  isNotExtinct,
   isTriassic,
   isJurassic,
   isCretaceous,
@@ -20,6 +21,7 @@ const {
   notTriassic,
 } = require('./main.js')
 
+const dinos = require('./dinos.js');
 
 let originalDinos = [];
 
@@ -63,29 +65,71 @@ beforeEach(() => {
     },
   ]
 })
-
-
 describe('makeDino', () => {
-  it(`given a species name, a period, and a diet, returns a dinosaur object with those values, as well as a default status of 'not extinct'`, () => {
-    const expectedDino = {
+  it(`given a species name, a period, a diet, and an extinct status of true, returns a dinosaur object with those values`, () => {
+    const expectedDino1 = {
       species: 'Eoraptor',
       period: 'Triassic',
       carnivore: true,
-      extinct: false
+      extinct: true
     }
 
-    expect(makeDino('Eoraptor', 'Triassic', true)).toEqual(expectedDino)
-  });
-
-  it(`allows us to create a dinosaur with status extinct`, () => {
-    const expectedDino = {
-      species: 'Brachiosaurus',
-      period: 'Jurassic',
+    const expectedDino2 = {
+      species: 'Stegosaurus',
+      period: 'Cretaceous',
       carnivore: false,
       extinct: true
     }
 
-    expect(makeDino('Brachiosaurus', 'Jurassic', false, true)).toEqual(expectedDino)
+    const dino1 = makeDino('Eoraptor', 'Triassic', true, true);
+    const dino2 = makeDino('Stegosaurus', 'Cretaceous', false, true);
+
+    expect(dino1).toEqual(expectedDino1)
+    expect(dino2).toEqual(expectedDino2)
+  });
+
+  it(`allows us to create a dinosaur that is not extinct`, () => {
+    const expectedDino1 = {
+      species: 'Brachiosaurus',
+      period: 'Jurassic',
+      carnivore: false,
+      extinct: false,
+    }
+
+    const expectedDino2 = {
+      species: 'Plesiosaur',
+      period: 'Triassic',
+      carnivore: true,
+      extinct: false,
+    }
+
+    const dino1 = makeDino('Brachiosaurus', 'Jurassic', false, false)
+    const dino2 = makeDino('Plesiosaur', 'Triassic', true, false)
+
+    expect(dino1).toEqual(expectedDino1)
+    expect(dino2).toEqual(expectedDino2)
+  })
+
+  it(`if no parameter is passed for extinct, default to false`, () => {
+    const expectedDino1 = {
+      species: 'Pteranodon',
+      period: 'Jurassic',
+      carnivore: true,
+      extinct: false,
+    }
+
+    const expectedDino2 = {
+      species: 'Dimetrodon',
+      period: 'Cretaceous',
+      carnivore: true,
+      extinct: false,
+    }
+
+    const dino1 = makeDino('Pteranodon', 'Jurassic', true)
+    const dino2 = makeDino('Dimetrodon', 'Cretaceous', true)
+
+    expect(dino1).toEqual(expectedDino1)
+    expect(dino2).toEqual(expectedDino2)
   })
 })
 
@@ -249,6 +293,27 @@ describe('isCarnivore', () => {
   })
 })
 
+describe('isHerbivore', () => {
+  it(`returns whether the given dinosaur is a herbivore`, () => {
+    const dino1 = {
+      species: 'T-Rex',
+      period: 'Cretaceous',
+      carnivore: true,
+      extinct: true
+    };
+
+    const dino2 = {
+      species: 'Brachiosaurus',
+      period: 'Jurassic',
+      carnivore: false,
+      extinct: false
+    };
+
+    expect(isHerbivore(dino1)).toBe(false);
+    expect(isHerbivore(dino2)).toBe(true)
+  })
+})
+
 describe('isExtinct', () => {
   it(`returns whether the given dinosaur is extinct`, () => {
     const dino1 = {
@@ -267,6 +332,27 @@ describe('isExtinct', () => {
 
     expect(isExtinct(dino1)).toBe(true)
     expect(isExtinct(dino2)).toBe(false);
+  })
+})
+
+describe('isNotExtinct', () => {
+  it(`returns whether the given dinosaur is NOT extinct`, () => {
+    const dino1 = {
+      species: 'T-Rex',
+      period: 'Cretaceous',
+      carnivore: true,
+      extinct: true
+    };
+
+    const dino2 = {
+      species: 'Brachiosaurus',
+      period: 'Jurassic',
+      carnivore: false,
+      extinct: false
+    };
+
+    expect(isNotExtinct(dino1)).toBe(false)
+    expect(isNotExtinct(dino2)).toBe(true);
   })
 })
 
@@ -604,7 +690,7 @@ describe('extinctOnly',() => {
 })
 
 describe('notExtinct',() => {
-  it(`returns an array of only extinct dinosaurs`, () => {
+  it(`returns an array of only NOT extinct dinosaurs`, () => {
     const stillAlive = [
       {
         species: 'Archaeopteryx',
