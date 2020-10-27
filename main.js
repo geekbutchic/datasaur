@@ -34,10 +34,13 @@ const makeExtinct = function (dino) {
 const isCarnivore = function (dino) {
   return (dino.carnivore === true)
 } 
+// or dinosaur.carnivore
 
 const isHerbivore = function (dino) {
   return (dino.carnivore === false)
 }
+// return !dinosaur.carnivore - if not 
+// ! bang operator
 
 const isExtinct = function (dino) {
   return (dino.extinct === true)
@@ -102,8 +105,7 @@ const carnivoresOnly = function (dinosaurs) {
   }
   return newDino;
 }
-// For this one I think this test is not working.
-// I did not fork and clone the new one.
+
 
 const herbivoresOnly = function (dinosaurs) {
   const newDino = [];
@@ -159,7 +161,7 @@ const notTriassic = function (dinosaurs) {
   }
   return newDino;
 }
-
+// or if (isTriassic(dino) === false))
 /*********************************
  * TEST SETUP CODE - DON'T TOUCH!*
  ********************************/
